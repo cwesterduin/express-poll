@@ -22,8 +22,8 @@ describe('Test for poll specific routes', () => {
             request.get('/polls/1').expect({
                 id: 1,
                 name: 'poll123'
-            })
-        }, done)
+            }, done)
+        })
     })
 
 
