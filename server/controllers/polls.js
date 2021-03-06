@@ -19,6 +19,17 @@ router.get("/:id", (req, res) => {
   }
 });
 
+router.patch("/:id/votes", (req, res) => {
+    try {
+      const pollId = parseInt(req.params.id);
+      const selectedPoll = Poll.findById(pollId);
+      res.status(200).send(selectedPoll);
+    } catch (err) {
+      console.log(err);
+      res.status(404).send(err);
+    }
+  });
+
 // router.post('/', (req, res) => {
 //     const data = req.body;
 //     const newFilm = Film.create(data);

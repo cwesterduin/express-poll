@@ -1,10 +1,12 @@
 const data = require("../data.js");
+const { response } = require("../server.js");
 const pollsData = data.polls;
 
 class Poll {
   constructor(data) {
     this.id = data.id;
     this.name = data.name;
+    this.responses = data.responses
   }
   static get all() {
     const polls = pollsData.map((poll) => new Poll(poll));
