@@ -1,16 +1,18 @@
-const express = require('express')
-const server = express()
+const express = require("express");
+const server = express();
+const bodyParser = require("body-parser");
 
-server.get('/', (req, res) => {
-    res.send('hello world!')
-})
+server.use(bodyParser.json());
 
-server.get('/polls', (req, res) => {
-    res.send('hello polls!')
-})
-
-server.post('/', (req, res) => {
-    res.status(405).send('Not allowd!');
+server.get("/", (req, res) => {
+  res.send("hello world!");
 });
 
-module.exports = server
+const pollRoutes = require("./controllers/polls");
+server.use("/polls", pollRoutes);
+
+server.post("/", (req, res) => {
+  res.status(405).send("Not allowd!");
+});
+
+module.exports = server;
