@@ -18,15 +18,6 @@ class Poll {
     pollsData.push(newPoll);
     return newPoll;
   }
-  updateVotes(responseId, ip) {
-    try {
-      let catchErr
-      const responseToUpdate = this.responses.filter(item => item.id === responseId)[0].votes
-      responseToUpdate.indexOf(String(ip)) === -1 ? responseToUpdate.push(String(ip)) : catchErr = err
-    } catch (err) {
-        throw new Error("ip has already voted")
-    }
-  }
   static findById(id) {
     try {
       const pollData = pollsData.filter((poll) => poll.id === id)[0];
@@ -34,6 +25,14 @@ class Poll {
       return poll;
     } catch (err) {
       throw new Error("Poll not found");
+    }
+  }
+  updateVotes(responseId, ip) {
+    try {
+      const responseToUpdate = this.responses.filter(item => item.id === responseId)[0].votes
+      responseToUpdate.indexOf(String(ip)) === -1 ? responseToUpdate.push(String(ip)) :  err
+    } catch (err) {
+        throw new Error("ip has already voted")
     }
   }
   destroy() {
