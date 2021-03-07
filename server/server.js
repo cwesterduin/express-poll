@@ -12,7 +12,7 @@ const pollRoutes = require("./controllers/polls");
 server.use("/polls", pollRoutes);
 
 server.post("/", (req, res) => {
-  res.status(405).send("Not allowd!");
+  res.status(405).send("Not allowed!");
 });
 
 module.exports = server;

@@ -19,8 +19,13 @@ class Poll {
     return newPoll;
   }
   updateVotes(responseId, ip) {
+    try {
+      let catchErr
       const responseToUpdate = this.responses.filter(item => item.id === responseId)[0].votes
-      responseToUpdate.push(String(ip))
+      responseToUpdate.indexOf(String(ip)) === -1 ? responseToUpdate.push(String(ip)) : catchErr = err
+    } catch (err) {
+        throw new Error("ip has already voted")
+    }
   }
   static findById(id) {
     try {
