@@ -23,8 +23,9 @@ router.patch("/:id/votes", (req, res) => {
     const responseId = parseInt(req.body.id)
     try {
       const pollId = parseInt(req.params.id);
-      const selectedPoll = Poll.updateVotes(pollId, responseId, req.ip);
-      res.status(200).send(selectedPoll);
+      const polltoUpdate = Poll.findById(pollId)
+      polltoUpdate.updateVotes(responseId, req.ip);
+      res.status(200).send(polltoUpdate);
     } catch (err) {
       console.log(err);
       res.status(404).send(err);

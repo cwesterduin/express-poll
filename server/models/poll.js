@@ -18,11 +18,9 @@ class Poll {
     pollsData.push(newPoll);
     return newPoll;
   }
-  static updateVotes(id, responseId, ip) {
-    const pollToUpdate = this.findById(id);
-    const responseToUpdate = pollToUpdate.responses.filter(item => item.id === responseId)[0].votes
-    responseToUpdate.push(String(ip))
-    return pollToUpdate;
+  updateVotes(responseId, ip) {
+      const responseToUpdate = this.responses.filter(item => item.id === responseId)[0].votes
+      responseToUpdate.push(String(ip))
   }
   static findById(id) {
     try {
