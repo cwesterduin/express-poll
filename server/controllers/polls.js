@@ -20,9 +20,11 @@ router.get("/:id", (req, res) => {
 });
 
 router.patch("/:id/votes", (req, res) => {
+    const responseId = req.body.id
     try {
+      console.log(responseId, req.ip)
       const pollId = parseInt(req.params.id);
-      const selectedPoll = Poll.findById(pollId);
+      const selectedPoll = Poll.updateVotes(pollId, responseId, req.ip);
       res.status(200).send(selectedPoll);
     } catch (err) {
       console.log(err);
