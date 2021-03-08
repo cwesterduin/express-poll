@@ -57,7 +57,7 @@ describe('Poll model', () => {
         expect(pollsData).not.toContain(pollToDestroy);
     });
 
-    it('should update a poll\'s responses', () => {
+    it('should update a poll\'s responses/votes', () => {
         const pollToTest = Poll.findById(1);
         const responseToUpdate = pollToTest.responses.filter(item => item.id === 1)[0].votes
         pollToTest.updateVotes(1, '00.11.22')
@@ -65,7 +65,7 @@ describe('Poll model', () => {
         expect(responseToUpdate).toContain('00.11.22');
     });
 
-    it('should throw an error if ip exists on poll\'s responses', () => {
+    it('should throw an error if ip exists on poll\'s responses/votes', () => {
         function testError() {
             const pollToTest = Poll.findById(1);
             const responseToUpdate = pollToTest.responses.filter(item => item.id === 1)[0].votes
