@@ -18,4 +18,6 @@ async function postData(url = '', data = {}) {
   }
   
 
-module.exports = postData
+module.exports = {
+    postData
+}
