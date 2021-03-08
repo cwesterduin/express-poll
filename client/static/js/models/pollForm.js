@@ -12,8 +12,12 @@ class PollForm {
     } 
 
     get html() {
-        const html =  
-        `<span>${this.response}</span>`
+        const html = document.createElement('div')
+        const htmlInner = document.createElement('span')
+        html.className = 'myPollEle'
+        html.dataset.number = this.number
+        html.append(htmlInner)
+        htmlInner.textContent = this.response
         return html
     } 
 }
