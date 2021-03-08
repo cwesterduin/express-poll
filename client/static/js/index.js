@@ -1,5 +1,7 @@
 const PollForm = require('./models/pollForm')
 const PollButtons = require('./buttons')
+const postData = require('./api')
+
 const root = document.getElementById('root')
 const form = document.querySelector('form')
 
@@ -35,18 +37,40 @@ document.getElementById('add-content').addEventListener("click", () => {
 })
 
 function addNewForm(e){
+    let formData = { responses: [] }
     try {
         e.preventDefault()
+        formData.name = e.target.pollName.value
+        if (formData.name.length < 1) throw new Error('name your form')
         let responseList = e.target.getElementsByClassName('myPollEle')
         for (let i=0; i<responseList.length; i++) {
             if (responseList[i].children[0].nodeName === 'INPUT') throw new Error('you have empty inputs')
-            console.log(responseList[i].children[0].textContent, responseList[i].dataset.number)
+            formData.responses.push({id: responseList[i].dataset.number, title: responseList[i].children[0].textContent, votes: []})
         }
+        postData('http://localhost:3000/polls', formData)
+        .then(data => {
+            console.log(data); // JSON data parsed by `data.json()` call
+          })
     } catch(err) {
         alert(err)
         throw err
     }
 }
 
+const testData = {
+    name: "testPoll",
+    responses: [
+      {
+        id: 1,
+        title: "Test 1",
+        votes: []
+      },
+      {
+        id: 2,
+        title: "Test 2",
+        votes: []
+      }
+    ]
+  }
 
 

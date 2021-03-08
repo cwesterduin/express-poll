@@ -4,6 +4,7 @@ const PollForm = require('./models/pollForm')
 function submitPollFormButton(parent) {
     const button = document.createElement('button')
     button.name = "submitPollForm"
+    button.type = "button"
     button.textContent = "+"
     button.addEventListener("click", () => savePollForm(parent))
     parent.append(button)
@@ -12,6 +13,7 @@ function submitPollFormButton(parent) {
 function editPollFormButton(parent) {
     const button = document.createElement('button')
     button.name = "editPollForm"
+    button.type = "button"
     button.textContent = "?"
     button.addEventListener("click", () => editPollForm(parent))
     parent.append(button)
@@ -20,6 +22,7 @@ function editPollFormButton(parent) {
 function deletePollFormButton(parent) {
     const button = document.createElement('button')
     button.name = "deletePollForm"
+    button.type = "button"
     button.textContent = "-"
     button.addEventListener("click", () => ammendPollForms(parent))
     parent.append(button)

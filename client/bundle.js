@@ -1,10 +1,33 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+// Example POST method implementation:
+async function postData(url = '', data = {}) {
+    // Default options are marked with *
+    const response = await fetch(url, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify(data) // body data type must match "Content-Type" header
+    });
+    return response.json(); // parses JSON response into native JavaScript objects
+  }
+  
+
+module.exports = postData
+},{}],2:[function(require,module,exports){
 const PollForm = require('./models/pollForm')
 
 
 function submitPollFormButton(parent) {
     const button = document.createElement('button')
     button.name = "submitPollForm"
+    button.type = "button"
     button.textContent = "+"
     button.addEventListener("click", () => savePollForm(parent))
     parent.append(button)
@@ -13,6 +36,7 @@ function submitPollFormButton(parent) {
 function editPollFormButton(parent) {
     const button = document.createElement('button')
     button.name = "editPollForm"
+    button.type = "button"
     button.textContent = "?"
     button.addEventListener("click", () => editPollForm(parent))
     parent.append(button)
@@ -21,6 +45,7 @@ function editPollFormButton(parent) {
 function deletePollFormButton(parent) {
     const button = document.createElement('button')
     button.name = "deletePollForm"
+    button.type = "button"
     button.textContent = "-"
     button.addEventListener("click", () => ammendPollForms(parent))
     parent.append(button)
@@ -69,9 +94,11 @@ module.exports = {
     deletePollFormButton,
     ammendPollForms
 }
-},{"./models/pollForm":3}],2:[function(require,module,exports){
+},{"./models/pollForm":4}],3:[function(require,module,exports){
 const PollForm = require('./models/pollForm')
 const PollButtons = require('./buttons')
+const postData = require('./api')
+
 const root = document.getElementById('root')
 const form = document.querySelector('form')
 
@@ -107,23 +134,45 @@ document.getElementById('add-content').addEventListener("click", () => {
 })
 
 function addNewForm(e){
+    let formData = { responses: [] }
     try {
         e.preventDefault()
+        formData.name = e.target.pollName.value
+        if (formData.name.length < 1) throw new Error('name your form')
         let responseList = e.target.getElementsByClassName('myPollEle')
         for (let i=0; i<responseList.length; i++) {
             if (responseList[i].children[0].nodeName === 'INPUT') throw new Error('you have empty inputs')
-            console.log(responseList[i].children[0].textContent, responseList[i].dataset.number)
+            formData.responses.push({id: responseList[i].dataset.number, title: responseList[i].children[0].textContent, votes: []})
         }
+        postData('http://localhost:3000/polls', formData)
+        .then(data => {
+            console.log(data); // JSON data parsed by `data.json()` call
+          })
     } catch(err) {
         alert(err)
         throw err
     }
 }
 
+const testData = {
+    name: "testPoll",
+    responses: [
+      {
+        id: 1,
+        title: "Test 1",
+        votes: []
+      },
+      {
+        id: 2,
+        title: "Test 2",
+        votes: []
+      }
+    ]
+  }
 
 
 
-},{"./buttons":1,"./models/pollForm":3}],3:[function(require,module,exports){
+},{"./api":1,"./buttons":2,"./models/pollForm":4}],4:[function(require,module,exports){
 class PollForm {
     constructor(data) {
         this.number = data.number
@@ -148,4 +197,4 @@ class PollForm {
 }
 
 module.exports = PollForm
-},{}]},{},[2]);
+},{}]},{},[3]);
