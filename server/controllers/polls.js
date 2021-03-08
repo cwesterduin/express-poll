@@ -32,11 +32,11 @@ router.patch("/:id/votes", (req, res) => {
     }
   });
 
-// router.post('/', (req, res) => {
-//     const data = req.body;
-//     const newFilm = Film.create(data);
-//     res.status(201).send(newFilm);
-// });
+router.post('/', (req, res) => {
+    const data = req.body;
+    const newPoll = Poll.create(data);
+    res.status(201).send(newPoll);
+});
 
 // router.delete('/:id', (req, res) => {
 //     const filmID = parseInt(req.params.id)
