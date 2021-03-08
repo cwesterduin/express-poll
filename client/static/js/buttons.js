@@ -34,12 +34,14 @@ function deletePollFormButton(parent) {
 
     }
     parent.remove()
+    let createPollButton = document.getElementById('submit-poll')
+    if (pollForms.length < 2) {createPollButton.remove()}
 }
 
 function savePollForm(parent){
     try {
         console.log(parent)
-        const form = parent.children[1]
+        const form = parent.getElementsByClassName('response-input')[0]
         if (form.value.length < 1) throw new RangeError("input value empty");
         const myPoll = new PollForm({response: form.value, number: parent.dataset.number})
         const newPollEle = myPoll.html
