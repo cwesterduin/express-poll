@@ -7,13 +7,13 @@ class PollForm {
     get formHtml() {
         const html =  
         `<label for="response"></label>
-        <input type="text" name="response" placeholder="${ this.response ? this.response : 'enter response text...'}" />`
+        <input type="text" name="response" placeholder="enter response text..." value="${this.response}": />`
         return html
     } 
 
     get html() {
         const html =  
-        `<div>${this.number}.${this.response}</div>`
+        `<span>${this.response}</span>`
         return html
     } 
 }

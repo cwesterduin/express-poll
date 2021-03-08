@@ -30,7 +30,6 @@ function deletePollFormButton(parent) {
     for (let i=0; i<pollForms.length; i++) {
         if (pollForms[i].dataset.number > parent.dataset.number) { 
             pollForms[i].dataset.number--
-            pollForms[i].children[0].textContent = pollForms[i].dataset.number
         }
 
     }
@@ -38,7 +37,8 @@ function deletePollFormButton(parent) {
 }
 
 function savePollForm(parent){
-    const myPoll = new PollForm({response: 'test1', number: parent.dataset.number})
+    const form = parent.children[1]
+    const myPoll = new PollForm({response: form.value, number: parent.dataset.number})
     parent.innerHTML = myPoll.html
     parent.dataset.number = parent.dataset.number
     editPollFormButton(parent)
@@ -46,10 +46,9 @@ function savePollForm(parent){
 }
 
 function editPollForm(parent){
-    const myPoll = new PollForm({response: 'test1', number: parent.dataset.number})
+    const myPoll = new PollForm({response: parent.children[0].textContent, number: parent.dataset.number})
     parent.innerHTML = myPoll.formHtml
     parent.dataset.number = parent.dataset.number
-    parent.children[0].textContent = `${parent.dataset.number}:`
     submitPollFormButton(parent)
     deletePollFormButton(parent)
 }
@@ -62,7 +61,6 @@ document.getElementById('add-content').addEventListener("click", () => {
     myPollElement.className = 'myPollEle'
     myPollElement.dataset.number = myNumber
     myPollElement.innerHTML = myPoll.formHtml
-    myPollElement.children[0].textContent = `${myPollElement.dataset.number}:`
     root.append(myPollElement)
     myPollElement.append
     submitPollFormButton(myPollElement)
