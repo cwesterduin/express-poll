@@ -1,0 +1,3 @@
+.myPollEle:before {
+	content: attr(data-number) ": ";
+}

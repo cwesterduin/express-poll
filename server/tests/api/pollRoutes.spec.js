@@ -1,7 +1,7 @@
 // import server
 const server = require('../../server');
-const supertest = require('supertest');
-const request = supertest(server);
+const request = require('supertest');
+
 
 var util = require('util');
 util.inspect.defaultOptions.depth = null; //enable full object reproting in console.log
@@ -22,31 +22,68 @@ let patchPoll = {
       { id: 2, title: "No", votes: ["33.33.33"] },
     ],
   }
-let failPatchPoll = {
 
-}
 
 describe('Test for poll specific routes', () => {
+    let api;
+    let postPoll = {
+        name: "poll221",
+        responses: [
+          {
+            id: 1,
+            title: "Yes",
+            votes: []
+          },
+          {
+            id: 2,
+            title: "No",
+            votes: []
+          }
+        ]
+      }
+    beforeAll(() => {
+        // start the server and store it in the api variable
+        api = server.listen(5000, () =>
+            console.log('Test server running on port 5000')
+        );
+    });
+
+    afterAll((done) => {
+        // close the server, then run done
+        console.log('Gracefully stopping test server');
+        api.close(done);
+    });
     
     it('responds with 200 to /polls', (done) => {
-      request.get('/polls').expect(200, done);
+        request(api).get('/polls').expect(200, done);
     })
 
     describe('Get specific poll', () => {
         it('responds to request for specific poll with 200', (done) => {
-            request.get('/polls/1').expect(200, done);
+            request(api).get('/polls/1').expect(200, done);
         })
         it('responds to request for specific poll with poll data', (done) => {
-            request.get('/polls/1').expect({...testPoll}, done)
+            request(api).get('/polls/1').expect({...testPoll}, done)
         })
         it('responds to a unknown poll id with a 404', (done) => {
-            request.get('/polls/42').expect(404).expect({}, done);
+            request(api).get('/polls/42').expect(404).expect({}, done);
         });
     })
 
+    describe('Create a poll', () => {
+        it('response to post request and creates a new poll', (done) => {
+            request(api)
+            .post('/polls')
+            .send(postPoll)
+            .expect(201)
+            .expect({ id: 3, ...postPoll }, done);
+        })
+    })
+
+
     describe('Vote on a poll', () => {
         it('responds to patch polls/:id/votes by updating votes with another item and code 200', (done) => {
-            request.patch('/polls/1/votes')
+            request(api).patch('/polls/1/votes')
             .send({id: 1})
             .expect(200)
             .expect({...patchPoll}, done);
@@ -54,7 +91,7 @@ describe('Test for poll specific routes', () => {
     })
     describe('Vote on a poll with same ip', () => {
         it('responds to patch polls/:id/votes with error if ip has response already', (done) => {
-            request.patch('/polls/2/votes')
+            request(api).patch('/polls/2/votes')
             .send({id: 2})
             .expect(404).expect({}, done);
         })

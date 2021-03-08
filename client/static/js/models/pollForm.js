@@ -6,14 +6,17 @@ class PollForm {
 
     get formHtml() {
         const html =  
-        `<label for="response"></label>
-        <input type="text" name="response" placeholder="${ this.response ? this.response : 'enter response text...'}" />`
+        `<input type="text" name="response" class="response-input" placeholder="enter response text..." value="${this.response}": />`
         return html
     } 
 
     get html() {
-        const html =  
-        `<div>${this.number}.${this.response}</div>`
+        const html = document.createElement('div')
+        const htmlInner = document.createElement('span')
+        html.className = 'myPollEle'
+        html.dataset.number = this.number
+        html.append(htmlInner)
+        htmlInner.textContent = this.response
         return html
     } 
 }
