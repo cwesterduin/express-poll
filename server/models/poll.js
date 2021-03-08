@@ -12,7 +12,7 @@ class Poll {
     const polls = pollsData.map((poll) => new Poll(poll));
     return polls;
   }
-  static get create() {
+  static create(poll) {
     const newPollId = pollsData.length + 1;
     const newPoll = new Poll({ id: newPollId, ...poll });
     pollsData.push(newPoll);
@@ -24,7 +24,7 @@ class Poll {
       const poll = new Poll(pollData);
       return poll;
     } catch (err) {
-      throw new Error("Poll not found");
+      throw new Error("poll not found");
     }
   }
   updateVotes(responseId, ip) {
@@ -37,7 +37,7 @@ class Poll {
   }
   destroy() {
     const pollToDestroy = pollsData.filter(
-      (poll) => pollToDestroy.id === poll.id
+      (poll) => poll.id === this.id
     )[0];
     pollsData.splice(pollsData.indexOf(pollToDestroy), 1);
   }
