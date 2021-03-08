@@ -12,7 +12,7 @@ class Poll {
     const polls = pollsData.map((poll) => new Poll(poll));
     return polls;
   }
-  static get create() {
+  static create(poll) {
     const newPollId = pollsData.length + 1;
     const newPoll = new Poll({ id: newPollId, ...poll });
     pollsData.push(newPoll);
@@ -24,20 +24,22 @@ class Poll {
       const poll = new Poll(pollData);
       return poll;
     } catch (err) {
-      throw new Error("Poll not found");
+      throw new Error("poll not found");
     }
   }
   updateVotes(responseId, ip) {
     try {
+      let ipCheckArr = []
       const responseToUpdate = this.responses.filter(item => item.id === responseId)[0].votes
-      responseToUpdate.indexOf(String(ip)) === -1 ? responseToUpdate.push(String(ip)) :  err
+      this.responses.forEach(response => response.votes.forEach(vote => ipCheckArr.push(vote)))
+      ipCheckArr.includes(String(ip)) ? err : responseToUpdate.push(String(ip))
     } catch (err) {
         throw new Error("ip has already voted")
     }
   }
   destroy() {
     const pollToDestroy = pollsData.filter(
-      (poll) => pollToDestroy.id === poll.id
+      (poll) => poll.id === this.id
     )[0];
     pollsData.splice(pollsData.indexOf(pollToDestroy), 1);
   }

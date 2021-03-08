@@ -24,4 +24,7 @@ describe('Get routes', () => {
     it('responds to non existing paths with 404', (done) => {
       request.get('/no').expect(404, done);
     });
+    it('responds to an incorrect post with 405', (done) => {
+        request.post('/').expect(405, done);
+    });
 })
