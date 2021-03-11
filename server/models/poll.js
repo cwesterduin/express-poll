@@ -5,6 +5,7 @@ const pollsData = data.polls;
 class Poll {
   constructor(data) {
     this.id = data.id;
+    this.password = data.password
     this.name = data.name;
     this.responses = data.responses
   }
