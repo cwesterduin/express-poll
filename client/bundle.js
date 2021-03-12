@@ -92,11 +92,11 @@ function savePollForm(parent){
         if (form.value.length < 1) throw new RangeError("input value empty");
         const myPoll = new PollForm({response: form.value, number: parent.dataset.number})
         const newPollEle = myPoll.html
-        root.replaceChild(newPollEle, parent)
+        document.getElementById('root').replaceChild(newPollEle, parent)
         editPollFormButton(newPollEle)
         deletePollFormButton(newPollEle)
     } catch (err) {
-        alert(err)
+        console.log(err)
         throw err
     }
 }
@@ -113,7 +113,8 @@ module.exports = {
     submitPollFormButton,
     editPollFormButton,
     deletePollFormButton,
-    ammendPollForms
+    ammendPollForms,
+    savePollForm
 }
 },{"./models/pollForm":4}],3:[function(require,module,exports){
 const PollForm = require('./models/pollForm')
@@ -178,7 +179,6 @@ window.addEventListener('load', (event) => {
         }
     }
     else if (window.location.href.includes('poll')) {
-        let pollData
         const pollToFind = window.location.search.slice(1,window.location.search.length)
         window.prompt('password?')
         apiFunctions.getData(`http://localhost:3000/polls/${pollToFind}`, '12345')

@@ -60,7 +60,6 @@ window.addEventListener('load', (event) => {
         }
     }
     else if (window.location.href.includes('poll')) {
-        let pollData
         const pollToFind = window.location.search.slice(1,window.location.search.length)
         window.prompt('password?')
         apiFunctions.getData(`http://localhost:3000/polls/${pollToFind}`, '12345')

@@ -48,11 +48,11 @@ function savePollForm(parent){
         if (form.value.length < 1) throw new RangeError("input value empty");
         const myPoll = new PollForm({response: form.value, number: parent.dataset.number})
         const newPollEle = myPoll.html
-        root.replaceChild(newPollEle, parent)
+        document.getElementById('root').replaceChild(newPollEle, parent)
         editPollFormButton(newPollEle)
         deletePollFormButton(newPollEle)
     } catch (err) {
-        alert(err)
+        console.log(err)
         throw err
     }
 }
@@ -69,5 +69,6 @@ module.exports = {
     submitPollFormButton,
     editPollFormButton,
     deletePollFormButton,
-    ammendPollForms
+    ammendPollForms,
+    savePollForm
 }
