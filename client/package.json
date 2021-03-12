@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "jest",
+    "coverage": "jest --coverage",
     "dev": "concurrently \"watchify ./static/js/index.js -o bundle.js\" \"py -m http.server\""
   },
   "keywords": [],

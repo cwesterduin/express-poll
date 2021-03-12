@@ -114,7 +114,8 @@ module.exports = {
     editPollFormButton,
     deletePollFormButton,
     ammendPollForms,
-    savePollForm
+    savePollForm,
+    editPollForm
 }
 },{"./models/pollForm":4}],3:[function(require,module,exports){
 const PollForm = require('./models/pollForm')

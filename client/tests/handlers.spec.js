@@ -42,6 +42,35 @@ describe ('dom functions', () => {
             expect(root.innerHTML).toContain(`<div class="myPollEle" data-number="1"><span>test response</span><button name="editPollForm" type="button">?</button><button name="deletePollForm" type="button">-</button></div>`)
             expect(root.innerHTML).not.toContain(`<input type="text"`)
         })
+        it('should throw an error on submit click if form is empty', () => { 
+            form.value = ""
+            expect( () => {buttonHandlers.savePollForm(responseEle);
+            }).toThrow();    
+            
+        })
+
     })
+
+    describe('functions for button actions on input2', () => {
+        beforeEach(() => {
+            document.documentElement.innerHTML = `<div id="root"><div class="myPollEle" data-number="1"><span>test response</span><button name="editPollForm" type="button">?</button><button name="deletePollForm" type="button">-</button></div><button id="submit-poll"></button></div>`
+            global.responseEle = document.getElementsByClassName('myPollEle')[0]
+            global.form = document.getElementsByName('response')[0]
+            global.root = document.getElementById('root')
+
+        })
+            it('should reformat the element for editing response', () => { 
+                buttonHandlers.editPollForm(responseEle)
+                expect(root.innerHTML).toBe(`<div class=\"myPollEle\" data-number=\"1\"><input type=\"text\" name=\"response\" class=\"response-input\" placeholder=\"enter response text...\" value=\"test response\" :=\"\"><button name=\"submitPollForm\" type=\"button\">+</button><button name=\"deletePollForm\" type=\"button\">-</button></div><button id=\"submit-poll\"></button>`)
+            })
+
+        
+        it('should delete a poll response object and ammend data-num of other elements on delete click', () => {
+                buttonHandlers.ammendPollForms(responseEle)
+                expect(root).not.toContain(`<div class=\"myPollEle\"`)
+        })
+    })
+
  
+
 })

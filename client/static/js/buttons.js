@@ -70,5 +70,6 @@ module.exports = {
     editPollFormButton,
     deletePollFormButton,
     ammendPollForms,
-    savePollForm
+    savePollForm,
+    editPollForm
 }
