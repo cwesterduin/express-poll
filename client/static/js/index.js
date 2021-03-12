@@ -61,5 +61,11 @@ window.addEventListener('load', (event) => {
     }
     else if (window.location.href.includes('poll')) {
         const pollToFind = window.location.search.slice(1,window.location.search.length)
+        window.prompt('password?')
+        apiFunctions.getData(`http://localhost:3000/polls/${pollToFind}`, '12345')
+        .then(data => {
+            document.getElementById('poll').textContent =
+            JSON.stringify(data); // JSON data parsed by `data.json()` call
+        })
     }
 })

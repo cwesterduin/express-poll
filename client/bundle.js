@@ -17,10 +17,29 @@ async function postData(url = '', data = {}) {
     });
     return response.json(); // parses JSON response into native JavaScript objects
   }
+
+// Example Get method implementation:
+async function getData(url = '') {
+    // Default options are marked with *
+    const response = await fetch(url, {
+      method: 'GET', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    });
+    return response.json(); // parses JSON response into native JavaScript objects
+  }
   
 
 module.exports = {
-    postData
+    postData,
+    getData
 }
 },{}],2:[function(require,module,exports){
 const PollForm = require('./models/pollForm')
@@ -73,11 +92,11 @@ function savePollForm(parent){
         if (form.value.length < 1) throw new RangeError("input value empty");
         const myPoll = new PollForm({response: form.value, number: parent.dataset.number})
         const newPollEle = myPoll.html
-        root.replaceChild(newPollEle, parent)
+        document.getElementById('root').replaceChild(newPollEle, parent)
         editPollFormButton(newPollEle)
         deletePollFormButton(newPollEle)
     } catch (err) {
-        alert(err)
+        console.log(err)
         throw err
     }
 }
@@ -94,7 +113,9 @@ module.exports = {
     submitPollFormButton,
     editPollFormButton,
     deletePollFormButton,
-    ammendPollForms
+    ammendPollForms,
+    savePollForm,
+    editPollForm
 }
 },{"./models/pollForm":4}],3:[function(require,module,exports){
 const PollForm = require('./models/pollForm')
@@ -160,6 +181,12 @@ window.addEventListener('load', (event) => {
     }
     else if (window.location.href.includes('poll')) {
         const pollToFind = window.location.search.slice(1,window.location.search.length)
+        window.prompt('password?')
+        apiFunctions.getData(`http://localhost:3000/polls/${pollToFind}`, '12345')
+        .then(data => {
+            document.getElementById('poll').textContent =
+            JSON.stringify(data); // JSON data parsed by `data.json()` call
+        })
     }
 })
 

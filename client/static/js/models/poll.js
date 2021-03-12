@@ -1,9 +1,9 @@
 class Poll {
     constructor(data) {
         this.name = data.number
-        this.response = data.response
+        this.responses = data.responses
     }
 
 }
 
-module.exports = PollForm
+module.exports = Poll
